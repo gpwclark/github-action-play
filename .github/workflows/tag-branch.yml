@@ -29,7 +29,7 @@ jobs:
           tagFormat: v${version}
 
       - name: Create tag on main but only if it does not exist
-      - uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@v1
         id: tag_create
         with:
           tag_exists_error: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
@@ -37,7 +37,7 @@ jobs:
 
       # Print result using the action output.
       - run: |
-          echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
+          echo "Tag ${{ steps.check_version.outputs.releaseVersion }} already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
