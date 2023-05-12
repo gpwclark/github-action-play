@@ -39,7 +39,7 @@ jobs:
           echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
       - name: Repository Dispatch
-        if: steps.tag_create.outputs.tag_exists == false # only send event if tag is new
+        if: steps.tag_create.outputs.tag_exists == "false" # only send event if tag is new
         uses: peter-evans/repository-dispatch@v2
         with:
           event-type: new-release
