@@ -41,12 +41,15 @@ jobs:
       - run: |
           echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
+      - name: Exit if tag is not new
+        if: steps.tag_create.outputs.tag_exists == true # only continue when the tag is new to this repo, never re-deploy!
+        run: exit 0
+
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
 
       - name: Clippy
-        if: steps.tag_create.outputs.tag_exists == false # only run when the tag is new
         run: |
           cargo --version
           cargo clippy
