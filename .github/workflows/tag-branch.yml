@@ -23,7 +23,7 @@ jobs:
         uses: thebongy/version-check@v1
         with:
           file: Cargo.toml
-          tagFormat: ${version}
+          tagFormat: v${version}
         id: version_check_staging
       - name:
         run: |
