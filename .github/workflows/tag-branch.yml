@@ -40,6 +40,15 @@ jobs:
       - run: |
           echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      - name: Clippy
+        run: |
+          cargo --version
+          cargo clippy
+
 
 #  TagOnPR:
 #    name: Tag on Pull Request merge
