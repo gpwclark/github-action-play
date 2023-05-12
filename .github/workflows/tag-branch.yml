@@ -20,7 +20,7 @@ jobs:
 
       - run: git fetch --all --tags
 
-      - name: Check Release Version
+      - name: Extract version from Cargo.toml
         uses: thebongy/version-check@v1
         id: check_version
         with:
@@ -28,6 +28,7 @@ jobs:
           failBuild: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tagFormat: v${version}
 
+      - name: Create tag on main but only if it does not exist
       - uses: rickstaa/action-create-tag@v1
         id: tag_create
         with:
@@ -44,18 +45,3 @@ jobs:
           event-type: new-release
           client-payload: "{ \"is_new_release\": ${{ steps.tag_create.outputs.tag_exists == 'false', \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_version.outputs.releaseVersion }}\" }}}"
 
-
-#  TagOnPR:
-#    name: Tag on Pull Request merge
-#    runs-on: ubuntu-latest
-#    # This 'if' condition is important for ensuring the workflow only runs for merged PRs
-#    #  (avoid running when a PR is discarded - closed without merging)
-#    steps:
-#      - name: Tag on PR merge
-#        id: tag-on-pr-merge
-#        uses: David-Lor/action-tag-on-pr-merge@main
-#        with:
-#          push-tag: true
-#          tag-regex: ^v(\d+\.)?(\d+\.)?(\*|\d+)$
-#      - name: Print fetched tag
-#        run: echo "${{ steps.tag-on-pr-merge.outputs.tag }}"

@@ -22,7 +22,14 @@ jobs:
         with:
           cache-on-failure: true
 
-      - name: Clippy
+      - uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ github.event.client_payload.version }}
+          regex: '^v[0-9]+\.[0-9]+\.[0-9]+$'
+
+      - name: Deploy version if version string is valid
+        if: ${{ steps.regex-match.outputs.match != '' }} # only deploy versions in the form of `v0.12.3` do not supported suffixes.
         run: |
           cargo --version
           cargo clippy
