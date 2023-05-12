@@ -1,3 +1,5 @@
+---
+
 name: Clippy a release
 on:
   push:
