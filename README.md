@@ -6,4 +6,4 @@ Verify tag from Cargo.toml.
 
 Then use output of that verification to tag main with github action.
 
-TBD if this will always run and fail on main :(
+TBD if this will always run and fail on main :(*
