@@ -15,19 +15,31 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - run: git fetch --all --tags
 
       - name: Check Release Version
         uses: thebongy/version-check@v1
+        id: check_version
         with:
           file: Cargo.toml
           tagFormat: v${version}
         id: version_check_staging
-      - name:
-        run: |
-          echo "Version ${{steps.version_check_staging.outputs.releaseVersion}}"
+
+      - uses: rickstaa/action-create-tag@v1
+        id: tag_create
+        with:
+          tag: "${{ steps.check_version.outputs.releaseVersion }}"
+
+      # Print result using the env variable.
+      -  run: |
+          echo "Tag already present: ${{ env.TAG_EXISTS }}"
+
+      # Print result using the action output.
+      - run: |
+          echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
+
 
 #  TagOnPR:
 #    name: Tag on Pull Request merge
