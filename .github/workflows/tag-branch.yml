@@ -43,7 +43,7 @@ jobs:
           echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
       - name: Exit if tag is not new
-        if: steps.tag_create.outputs.tag_exists == true # only continue when the tag is new to this repo, never re-deploy!
+        if: ${{ steps.tag_create.outputs.tag_exists }} == true # only continue when the tag is new to this repo, never re-deploy!
         run: exit 0
 
       - uses: Swatinem/rust-cache@v2
