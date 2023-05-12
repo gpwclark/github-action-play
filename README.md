@@ -8,4 +8,4 @@ Verify tag does not exist. If it does not then use output of that verification t
 Cargo.toml, and send trigger with information about whether or not this is a new release with a proper version:
     `^v[0-9]+\.[0-9]+\.[0-9]+$`
 
-Then key off trigger sent by build action to do release only actions when the tag is new.
+Then key off trigger to do release only actions when the tag is new.
