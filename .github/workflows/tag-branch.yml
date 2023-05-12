@@ -34,26 +34,15 @@ jobs:
           tag_exists_error: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tag: "${{ steps.check_version.outputs.releaseVersion }}"
 
-      # Print result using the env variable.
-      -  run: |
-          echo "Tag already present: ${{ env.TAG_EXISTS }}"
-
       # Print result using the action output.
       - run: |
           echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
 
-      - name: Exit if tag is not new
-        if: ${{ steps.tag_create.outputs.tag_exists }} == true # only continue when the tag is new to this repo, never re-deploy!
-        run: exit 0
-
-      - uses: Swatinem/rust-cache@v2
+      - name: Repository Dispatch
+        if: ${{ steps.tag_create.outputs.tag_exists }} == false # only send event if tag is new
+        uses: peter-evans/repository-dispatch@v2
         with:
-          cache-on-failure: true
-
-      - name: Clippy
-        run: |
-          cargo --version
-          cargo clippy
+          event-type: new-release
 
 
 #  TagOnPR:
