@@ -3,9 +3,8 @@
 name: Clippy a release
 on:
   push:
-    # Pattern matched against refs/tags
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
 
 jobs: 
   style:
