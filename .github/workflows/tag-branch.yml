@@ -36,7 +36,7 @@ jobs:
           failBuild: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tagFormat: v${version}
 
-      - name: Tags do not match
+      - name: Tags do not match only deploy release versions if binary matches library versions
         if: ${{ steps.check_bin_version.outputs.releaseVersion != steps.check_lib_version.outputs.releaseVersion }}
         run: |
           echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }} does NOT match tag lib version, will not trigger subsequent workflow"
@@ -49,9 +49,9 @@ jobs:
           tag_exists_error: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tag: "${{ steps.check_bin_version.outputs.releaseVersion }}"
 
-      # Print result using the action output.
-      - run: |
-          echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }} already present: ${{ steps.tag_create.outputs.tag_exists }}"
+      - name: Announce tag version and whether or not the tag already exists in the repo
+        run: |
+          echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }}.  Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
         if: ${{ steps.check_bin_version.outputs.releaseVersion == steps.check_lib_version.outputs.releaseVersion }}
 
       - name: Repository Dispatch
