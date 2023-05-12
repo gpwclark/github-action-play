@@ -25,7 +25,6 @@ jobs:
         with:
           file: Cargo.toml
           tagFormat: v${version}
-        id: version_check_staging
 
       - uses: rickstaa/action-create-tag@v1
         id: tag_create
