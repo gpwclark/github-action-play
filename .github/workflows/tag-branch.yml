@@ -9,18 +9,35 @@ on:
       - main
 
 jobs:
-  TagOnPR:
-    name: Tag on Pull Request merge
+  version-check:
     runs-on: ubuntu-latest
-    # This 'if' condition is important for ensuring the workflow only runs for merged PRs
-    #  (avoid running when a PR is discarded - closed without merging)
     if: github.event.pull_request.merged == true
     steps:
-      - name: Tag on PR merge
-        id: tag-on-pr-merge
-        uses: David-Lor/action-tag-on-pr-merge@main
+      - uses: actions/checkout@v2
+
+      - run: git fetch --all --tags
+
+      - name: Check Release Version
+        uses: thebongy/version-check@v1
         with:
-          push-tag: true
-          tag-regex: ^v(\d+\.)?(\d+\.)?(\*|\d+)$
-      - name: Print fetched tag
-        run: echo "${{ steps.tag-on-pr-merge.outputs.tag }}"
+          file: Cargo.toml
+          tagFormat: ${version}
+        id: version_check_staging
+      - name:
+        run: |
+        echo "Version ${{steps.version_check_staging.outputs.releaseVersion}}"
+
+#  TagOnPR:
+#    name: Tag on Pull Request merge
+#    runs-on: ubuntu-latest
+#    # This 'if' condition is important for ensuring the workflow only runs for merged PRs
+#    #  (avoid running when a PR is discarded - closed without merging)
+#    steps:
+#      - name: Tag on PR merge
+#        id: tag-on-pr-merge
+#        uses: David-Lor/action-tag-on-pr-merge@main
+#        with:
+#          push-tag: true
+#          tag-regex: ^v(\d+\.)?(\d+\.)?(\*|\d+)$
+#      - name: Print fetched tag
+#        run: echo "${{ steps.tag-on-pr-merge.outputs.tag }}"
