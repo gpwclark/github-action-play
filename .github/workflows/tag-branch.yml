@@ -42,7 +42,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           event-type: new-release
-          client-payload: '{"is_new_release": ${{ steps.tag_create.outputs.tag_exists == false }}}'
+          client-payload: '{"is_new_release": ${{ steps.tag_create.outputs.tag_exists == "false" }}}'
 
 
 #  TagOnPR:
