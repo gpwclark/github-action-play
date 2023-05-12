@@ -1,7 +1,4 @@
-fn stringerang(boomerang: &str) -> &str {
-    boomerang
-}
-
+use printer::stringerang;
 
 fn main() {
     println!("{}", stringerang("hello world"));

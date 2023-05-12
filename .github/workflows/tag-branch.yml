@@ -24,7 +24,7 @@ jobs:
         uses: thebongy/version-check@v1
         id: check_version
         with:
-          file: Cargo.toml
+          file: scratch/Cargo.toml
           failBuild: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tagFormat: v${version}
 
