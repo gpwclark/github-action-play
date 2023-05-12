@@ -20,28 +20,44 @@ jobs:
 
       - run: git fetch --all --tags
 
-      - name: Extract version from Cargo.toml
+      - name: Extract version from binary's Cargo.toml
         uses: thebongy/version-check@v1
-        id: check_version
+        id: check_bin_version
         with:
           file: scratch/Cargo.toml
           failBuild: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tagFormat: v${version}
 
+      - name: Extract version from library's Cargo.toml
+        uses: thebongy/version-check@v1
+        id: check_lib_version
+        with:
+          file: printer/Cargo.toml
+          failBuild: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
+          tagFormat: v${version}
+
       - name: Create tag on main but only if it does not exist
+        if: ${{ steps.check_bin_version.outputs.releaseVersion }} != ${{ steps.check_lib_version.outputs.releaseVersion }}
+        run: |
+          echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }} does NOT match tag lib version, no will not trigger subsequent workflow"
+
+      - name: Create tag on main but only if it does not exist
+        if: ${{ steps.check_bin_version.outputs.releaseVersion }} == ${{ steps.check_lib_version.outputs.releaseVersion }}
         uses: rickstaa/action-create-tag@v1
         id: tag_create
         with:
           tag_exists_error: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
-          tag: "${{ steps.check_version.outputs.releaseVersion }}"
+          tag: "${{ steps.check_bin_version.outputs.releaseVersion }}"
 
       # Print result using the action output.
       - run: |
-          echo "Tag ${{ steps.check_version.outputs.releaseVersion }} already present: ${{ steps.tag_create.outputs.tag_exists }}"
+          echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }} already present: ${{ steps.tag_create.outputs.tag_exists }}"
+        if: ${{ steps.check_bin_version.outputs.releaseVersion }} == ${{ steps.check_lib_version.outputs.releaseVersion }}
 
       - name: Repository Dispatch
+        if: ${{ steps.check_bin_version.outputs.releaseVersion }} == ${{ steps.check_lib_version.outputs.releaseVersion }}
         uses: peter-evans/repository-dispatch@v2
         with:
           event-type: new-release
-          client-payload: "{ \"is_new_release\": ${{ steps.tag_create.outputs.tag_exists == 'false' }}, \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_version.outputs.releaseVersion }}\" }"
+          client-payload: "{ \"is_new_release\": ${{ steps.tag_create.outputs.tag_exists == 'false' }}, \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_bin_version.outputs.releaseVersion }}\" }"
 
