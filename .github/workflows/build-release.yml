@@ -15,6 +15,8 @@ jobs:
         run: exit 1
 
       - uses: actions/checkout@v3
+        with:
+          ref: ${{  github.event.client_payload.sha }}
 
       - uses: Swatinem/rust-cache@v2
         with:
