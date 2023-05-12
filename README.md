@@ -6,4 +6,4 @@ Extract tag from Cargo.toml on merge to main.
 
 Verify tag does not exist if it does not then use output of that verification to tag main with github action if tag is new.
 
-Then use trigger to do release only actions.
+Then use trigger to do release only actions if the tag is new.
