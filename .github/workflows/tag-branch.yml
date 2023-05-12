@@ -25,6 +25,7 @@ jobs:
         id: check_version
         with:
           file: Cargo.toml
+          tag_exists_error: false # don't want CI to fail if the tag does exist, later logic ensures tag must be new.
           tagFormat: v${version}
 
       - uses: rickstaa/action-create-tag@v1
@@ -45,6 +46,7 @@ jobs:
           cache-on-failure: true
 
       - name: Clippy
+        if: steps.tag_create.outputs.tag_exists == false # only run when the tag is new
         run: |
           cargo --version
           cargo clippy
