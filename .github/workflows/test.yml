@@ -14,7 +14,12 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  call-workflow:
+    uses: ./.github/workflows/clippy.yml
+    with:
+      sha: ${{ github.sha }}
   test:
+    needs: call-workflow
     runs-on: ubuntu-20.04
     timeout-minutes: 60
     steps:

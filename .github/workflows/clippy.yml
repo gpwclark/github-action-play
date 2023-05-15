@@ -1,0 +1,27 @@
+---
+name: "Reusable clippy workflow"
+
+on:
+  workflow_call:
+    inputs:
+      sha:
+        required: true
+        type: string
+
+jobs:
+  clippy-linux:
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{  inputs.sha }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      - name: Clippy
+        run: |
+          cargo --version
+          cargo clippy
+
+

@@ -59,8 +59,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           event-type: new-release
-          client-payload: "{ \"is_new_release\": true, \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_bin_version.outputs.releaseVersion }}\" }"
-
-
-#client-payload: "{ \"is_new_release\": ${{ steps.tag_create.outputs.tag_exists == 'false' }}, \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_bin_version.outputs.releaseVersion }}\" }"
+          client-payload: "{ \"is_new_release\": ${{ steps.tag_create.outputs.tag_exists == 'false' }}, \"sha\": \"${{ github.sha }}\", \"version\": \"${{ steps.check_bin_version.outputs.releaseVersion }}\" }"
 
