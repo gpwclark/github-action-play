@@ -8,4 +8,6 @@ Verify tag from toml file(s) does not exist and version of binary and lib matche
 Cargo.toml, and send trigger with information about whether or not this is a new release with a proper version:
     `^v[0-9]+\.[0-9]+\.[0-9]+$`
 
+    i.e. a version starting with `v` followed by three numbers separated by `.` and no trailing characters
+
 Then key off trigger to do release only actions when the tag is new.
