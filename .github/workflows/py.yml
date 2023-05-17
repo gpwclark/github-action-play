@@ -14,7 +14,7 @@ jobs:
   pyscript:
     runs-on: ubuntu-22.04
     outputs:
-      version: ${{ steps.pyscript.outputs.version }}
+      version: ${{ steps.version-output.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Install Python
@@ -23,8 +23,8 @@ jobs:
           python-version: '3.10'
       - name: Install Dependencies
         run: pip install requirements-parser
-        shell: bash
       - name: Get version
+        id: version-output
         run: |
           echo "$(python pycode/output-version.py)" >> $GITHUB_OUTPUT
         shell: bash
