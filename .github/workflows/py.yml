@@ -1,0 +1,38 @@
+---
+name: Python
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pyscript:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.pyscript.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: pip install requirements-parser
+        shell: bash
+      - name: Get version
+        run: |
+          echo "$(python pycode/output-version.py)" >> $GITHUB_OUTPUT
+        shell: bash
+  prove-it:
+    needs: pyscript
+    runs-on: ubuntu-22.04
+    steps:
+      - name: proof
+        shell: bash
+        run: |
+          echo "The version is: ${{ needs.pyscript.outputs.version }}"

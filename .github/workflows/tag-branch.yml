@@ -40,6 +40,7 @@ jobs:
         if: ${{ steps.check_bin_version.outputs.releaseVersion != steps.check_lib_version.outputs.releaseVersion }}
         run: |
           echo "Tag bin version ${{ steps.check_bin_version.outputs.releaseVersion }} does NOT match tag lib version, will not trigger subsequent workflow"
+          exit 1
 
       - name: Create tag on main but only if it does not exist
         if: ${{ steps.check_bin_version.outputs.releaseVersion == steps.check_lib_version.outputs.releaseVersion }}
