@@ -1,0 +1,51 @@
+---
+name: Python
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pyscript:
+    runs-on: ubuntu-22.04
+    outputs:
+      output1: ${{ step.pyscript.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: pip install requirements
+        shell: bash
+      - uses: jannekem/run-python-script-action@v1
+        id: pyscript
+        with:
+        script: |
+          import requirements
+          import os
+          with open('pycode/requirements.txt', 'r') as fd:
+               for req in requirements.parse(fd):
+                   if req.name == "sample":
+                       os.environ["GITHUB_OUTPUT"] = f"version={req.specs[0][1]}"
+                       print(f"env {os.environ['GITHUB_OUTPUT']}")
+      - name: Print errors
+        if: steps.script.outputs.error == 'true'
+        run: |
+          printenv "SCRIPT_STDOUT"
+          printenv "SCRIPT_STDERR"
+        env:
+          SCRIPT_STDOUT: ${{ steps.script.outputs.stdout }}
+          SCRIPT_STDERR: ${{ steps.script.outputs.stderr }}
+  prove-it:
+    needs: pyscript
+    runs-on: ubuntu-22.04
+    shell: bash
+    run: |
+      echo "The version is: ${{ needs.pyscript.outputs.version }}"

@@ -10,7 +10,7 @@ jobs:
     if: ${{ github.event.client_payload.is_new_release }}
     runs-on: ubuntu-20.04
     steps:
-      - name: Exit if not on master branch
+      - name: Exit if not on main branch
         if: endsWith(github.ref, 'main') == false
         run: exit 1
 
