@@ -23,7 +23,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: coverage
-          path docs
+          path: docs
       - name: ls docs folder
         shell: bash
         run: |
