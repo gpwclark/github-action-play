@@ -28,3 +28,16 @@ export LLVM_PROFILE_FILE="abc-%p-%m.profraw"
 cargo test
 grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
 ```
+
+# GH pages
+## first time use, set up orphan branch.
+```
+BRANCH_NAME=gh-pages # Change to a desired branch name
+git checkout --orphan $BRANCH_NAME
+git rm -rf .
+echo "Github pages branch" > README.md
+git add README.md
+git commit -m "Add readme"
+git push origin $BRANCH_NAME
+```
+
