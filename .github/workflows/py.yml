@@ -46,6 +46,8 @@ jobs:
   prove-it:
     needs: pyscript
     runs-on: ubuntu-22.04
-    shell: bash
-    run: |
-      echo "The version is: ${{ needs.pyscript.outputs.version }}"
+    steps:
+      - name Print outputted version
+        shell: bash
+        run: |
+        echo "The version is: ${{ needs.pyscript.outputs.version }}"
