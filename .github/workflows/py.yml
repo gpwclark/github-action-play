@@ -14,7 +14,7 @@ jobs:
   pyscript:
     runs-on: ubuntu-22.04
     outputs:
-      output1: ${{ step.pyscript.outputs.version }}
+      version: ${{ steps.pyscript.outputs.version }}
     steps:
       - uses: actions/checkout@v3
       - name: Install Python
