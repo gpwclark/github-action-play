@@ -7,7 +7,6 @@ on:
 
 jobs:
   grcov:
-    runs-on: ubuntu-22.04
     uses: ./.github/workflows/coverage.yml
     with:
       sha: ${{ github.sha }}
