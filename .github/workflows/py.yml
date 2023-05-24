@@ -27,14 +27,14 @@ jobs:
       - uses: jannekem/run-python-script-action@v1
         id: pyscript
         with:
-        script: |
-          import requirements
-          import os
-          with open('pycode/requirements.txt', 'r') as fd:
-               for req in requirements.parse(fd):
-                   if req.name == "sample":
-                       os.environ["GITHUB_OUTPUT"] = f"version={req.specs[0][1]}"
-                       print(f"env {os.environ['GITHUB_OUTPUT']}")
+          script: |
+            import requirements
+            import os
+            with open('pycode/requirements.txt', 'r') as fd:
+                 for req in requirements.parse(fd):
+                     if req.name == "sample":
+                         os.environ["GITHUB_OUTPUT"] = f"version={req.specs[0][1]}"
+                         print(f"env {os.environ['GITHUB_OUTPUT']}")
       - name: Print errors
         if: steps.script.outputs.error == 'true'
         run: |

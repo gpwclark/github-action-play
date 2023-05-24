@@ -17,6 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy 🚀
-           uses: JamesIves/github-pages-deploy-action@v4
-           with:
-             folder: docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
