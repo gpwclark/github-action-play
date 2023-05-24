@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+      - name: ls docs folder
+        shell: bash
+        run: |
+          ls docs/
+          ls docs/coverage
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
