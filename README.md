@@ -11,3 +11,20 @@ Cargo.toml, and send trigger with information about whether or not this is a new
     i.e. a version starting with `v` followed by three numbers separated by `.` and no trailing characters
 
 Then key off trigger to do release only actions when the tag is new.
+
+# grcov
+## Installation
+```
+cargo install grcov
+rustup component add llvm-tools-preview
+```
+
+## Generating report
+```
+cargo clean
+export RUSTFLAGS="-Cinstrument-coverage"
+cargo build
+export LLVM_PROFILE_FILE="abc-%p-%m.profraw"
+cargo test
+grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
+```

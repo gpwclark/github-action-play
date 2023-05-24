@@ -4,11 +4,11 @@ version = 3
 
 [[package]]
 name = "printer"
-version = "0.12.18-dev"
+version = "0.12.20"
 
 [[package]]
 name = "scratch"
-version = "0.12.18-dev"
+version = "0.12.20"
 dependencies = [
  "printer",
 ]
