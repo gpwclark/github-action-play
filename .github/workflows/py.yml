@@ -50,4 +50,4 @@ jobs:
       - name Print outputted version
         shell: bash
         run: |
-        echo "The version is: ${{ needs.pyscript.outputs.version }}"
+          echo "The version is: ${{ needs.pyscript.outputs.version }}"
