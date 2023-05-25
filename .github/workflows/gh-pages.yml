@@ -14,14 +14,14 @@ jobs:
     with:
       sha: ${{ github.sha }}
       artifact-name: coverage
-      config: ./.github/action-rs/grcov.yml
+      config: ./.github/actions-rs/grcov.yml
 
   grcov2:
     uses: ./.github/workflows/coverage.yml
     with:
       sha: ${{ github.sha }}
       artifact-name: coverage2
-      config: ./.github/action-rs/grcov2.yml
+      config: ./.github/actions-rs/grcov2.yml
 
   build:
     needs: [ grcov, grcov2 ]
