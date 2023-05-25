@@ -10,9 +10,6 @@ on:
       artifact-name:
         required: true
         type: string
-      config:
-        required: true
-        type: string
     outputs:
       path:
         description: "Location of grcov html files"
@@ -47,8 +44,6 @@ jobs:
           RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
       - id: coverage
         uses: actions-rs/grcov@v0.1
-        with:
-          config: ${{ inputs.config }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

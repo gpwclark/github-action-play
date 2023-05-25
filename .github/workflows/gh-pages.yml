@@ -14,17 +14,16 @@ jobs:
     with:
       sha: ${{ github.sha }}
       artifact-name: coverage
-      config: ./.github/actions-rs/grcov.yml
 
-  grcov2:
-    uses: ./.github/workflows/coverage.yml
+  cargo-docs:
+    uses: ./.github/workflows/cargo-docs.yml
     with:
       sha: ${{ github.sha }}
-      artifact-name: coverage2
-      config: ./.github/actions-rs/grcov2.yml
+      artifact-name: cargo-docs
+      path: docs/scratch
 
   build:
-    needs: [ grcov, grcov2 ]
+    needs: [ grcov, cargo-docs ]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -34,11 +33,7 @@ jobs:
           path: docs
       - uses: actions/download-artifact@v3
         with:
-          name: coverage2
-          path: docs
-      - uses: actions/download-artifact@v3
-        with:
-          name: coverage2
+          name: cargo-docs
           path: docs
       - name: ls docs folder
         shell: bash

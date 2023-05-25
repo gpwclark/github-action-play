@@ -1,0 +1,37 @@
+---
+name: "Reusable cargo docs workflow"
+
+on:
+  workflow_call:
+    inputs:
+      sha:
+        required: true
+        type: string
+      artifact-name:
+        required: true
+        type: string
+      path:
+        required: true
+        type: string
+
+jobs:
+  cargo-docs:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{  inputs.sha }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      -name: Build docs
+       run: cargo doc --target-dir ${{ inputs.path }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: docs
+
