@@ -9,23 +9,17 @@ permissions:
     contents: write
 
 jobs:
-#  grcov:
-#    uses: ./.github/workflows/coverage.yml
-#    with:
-#      sha: ${{ github.sha }}
-#      artifact-name: coverage
+  grcov:
+    uses: ./.github/workflows/coverage.yml
+    with:
+      sha: ${{ github.sha }}
+      artifact-name: coverage
 
   build:
-#    needs: grcov
+    needs: grcov
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-# fake upload
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: docs
       - uses: actions/download-artifact@v3
         with:
           name: coverage
