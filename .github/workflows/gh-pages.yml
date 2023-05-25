@@ -9,14 +9,14 @@ permissions:
     contents: write
 
 jobs:
-  grcov:
-    uses: ./.github/workflows/coverage.yml
-    with:
-      sha: ${{ github.sha }}
-      artifact-name: coverage
+#  grcov:
+#    uses: ./.github/workflows/coverage.yml
+#    with:
+#      sha: ${{ github.sha }}
+#      artifact-name: coverage
 
   build:
-    needs: grcov
+#    needs: grcov
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,8 @@ jobs:
         shell: bash
         run: |
           ls docs/
-          ls docs/coverage
+          echo "break"
+#          ls docs/coverage
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
