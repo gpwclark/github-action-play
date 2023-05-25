@@ -14,9 +14,17 @@ jobs:
     with:
       sha: ${{ github.sha }}
       artifact-name: coverage
+      config: ./.github/action-rs/grcov.yml
+
+  grcov2:
+    uses: ./.github/workflows/coverage.yml
+    with:
+      sha: ${{ github.sha }}
+      artifact-name: coverage2
+      config: ./.github/action-rs/grcov2.yml
 
   build:
-    needs: grcov
+    needs: [ grcov, grcov2 ]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -24,12 +32,19 @@ jobs:
         with:
           name: coverage
           path: docs
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage2
+          path: docs
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage2
+          path: docs
       - name: ls docs folder
         shell: bash
         run: |
           ls docs/
           echo "break"
-#          ls docs/coverage
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
