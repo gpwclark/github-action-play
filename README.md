@@ -16,7 +16,18 @@ Then key off trigger to do release only actions when the tag is new.
 
 - Houses static sites on gh pages site. The `docs` directory houses the main index.html file. The 
 `.github/workflows/gh-pages.yml` file builds the directories that `docs` references. New directories of static sites
-can be added.
+can be added. Currently grcov and the crates docs are built.
+
+## cargo docs
+
+### Generating site
+```
+cargo doc --open
+```
+if needed in a specific folder use:
+```
+cargo doc --target-dir ./some-dir/
+```
 
 ## grcov
 
