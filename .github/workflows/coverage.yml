@@ -48,7 +48,7 @@ jobs:
       - id: coverage
         uses: actions-rs/grcov@v0.1
         with:
-            config: ${{ inputs.config }}
+          config: ${{ inputs.config }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3

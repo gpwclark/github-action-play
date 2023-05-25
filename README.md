@@ -12,14 +12,21 @@ Cargo.toml, and send trigger with information about whether or not this is a new
 
 Then key off trigger to do release only actions when the tag is new.
 
-# grcov
-## Installation
+# GitHub Pages
+
+- Houses static sites on gh pages site. The `docs` directory houses the main index.html file. The 
+`.github/workflows/gh-pages.yml` file builds the directories that `docs` references. New directories of static sites
+can be added.
+
+## grcov
+
+### Installation
 ```
 cargo install grcov
 rustup component add llvm-tools-preview
 ```
 
-## Generating report
+### Generating report
 ```
 cargo clean
 export RUSTFLAGS="-Cinstrument-coverage"
@@ -29,8 +36,8 @@ cargo test
 grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
 ```
 
-# GH pages
-## first time use, set up orphan branch.
+#### GH pages setup
+- first time use, set up orphan branch.
 ```
 BRANCH_NAME=gh-pages # Change to a desired branch name
 git checkout --orphan $BRANCH_NAME
