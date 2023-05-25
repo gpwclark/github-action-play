@@ -26,8 +26,8 @@ jobs:
         with:
           cache-on-failure: true
 
-      -name: Build docs
-       run: cargo doc --target-dir ${{ inputs.path }}
+      - name: Build docs
+        run: cargo doc --target-dir ${{ inputs.path }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
