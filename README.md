@@ -29,6 +29,9 @@ if needed in a specific folder use:
 cargo doc --target-dir ./some-dir/
 ```
 
+## cargo docs
+cargo doc --target-dir docs/scratch
+
 ## grcov
 
 ### Installation
