@@ -18,6 +18,9 @@ Then key off trigger to do release only actions when the tag is new.
 `.github/workflows/gh-pages.yml` file builds the directories that `docs` references. New directories of static sites
 can be added.
 
+## cargo docs
+cargo doc --target-dir docs/scratch
+
 ## grcov
 
 ### Installation
