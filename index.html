@@ -1,16 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-us">
-	<head><meta charset="utf-8">
+	<head>
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Grcov report - top_level </title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"></head>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				console.log("Hello World!");
+				versionChange();
+			});
+			function versionChange() {
+				var version = document.getElementById('version').value;
+				console.log("VERSION: " + version);
+				var ul = document.getElementById('versioned-resources');
+				var lis = ul.getElementsByTagName('a');
+				for (var i = 0, len = lis.length; i < len; i++ ) {
+					lis[ i ].setAttribute('href', version + "/" + lis[ i ].getAttribute('data-relative-url'));
+				}
+			}
+		</script>
 	<body>
 		<div class="container">
-			<h1>Abc Resources</h1>
-			<ul>
-				<li><a href="coverage/">Code Coverage</a></li>
-				<li><a href="scratch/doc/scratch/index.html">Scratch Docs</a></li>
-			</ul>
-			<div>
+			<h1 class="title"> Abc Resources </h1>
+						<table class="table is-narrow is-bordered">
+					<tr>
+						<td> <h1 class="title" >Builds</h1> </td>
+					</tr>
+							<tr>
+								<!--
+									if more versions are added it would probably be better to make version a select
+									and have JS change the resources displayed based on the version chosed in the select
+									element
+								-->
+								<td>
+									<select name="version" id="version" onchange="versionChange();">
+										<option selected="selected" value="docs">main</option>
+										<option value="versions/v0.12.20">v0.12.20</option>
+									</select>
+									
+								</td>
+								<td>
+									<ul id="versioned-resources">
+										<li> <a href="docs/coverage/index.html" data-relative-url="coverage/index.html" >Code Coverage</a> </li>
+										<li> <a href="docs/scratch/doc/scratch/index.html" data-relative-url="scratch/doc/scratch/index.html">Scratch Docs</a> </li>
+									</ul>
+								</td>
+							</tr>
+						</table>
+		<div>
 	</body>
 </html>
+
